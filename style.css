@@ -157,3 +157,12 @@ section { padding: 72px 0; }
 
 /* "ÃO" dourado da marca Cultivão */
 .ao { color: var(--marca-ouro); }
+
+/* Seção Nosso propósito */
+.proposito { padding-bottom: 24px; }
+.proposito .card h3 { font-size: 1.2rem; }
+.valores { list-style: none; margin-top: 4px; }
+.valores li { color: var(--texto-suave); font-size: .92rem; padding: 6px 0; border-top: 1px solid var(--borda); }
+.valores li:first-child { border-top: 0; padding-top: 0; }
+.valores strong { color: var(--verde-escuro); }
+@media (max-width: 860px) { .proposito .grade { grid-template-columns: 1fr; } }
