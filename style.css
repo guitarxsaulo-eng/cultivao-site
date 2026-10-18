@@ -3,6 +3,7 @@
   --verde: #1F4D36;
   --verde-claro: #2E7D4F;
   --sol: #FFD004;
+  --marca-ouro: #E9C046;
   --laranja: #F2A900;
   --creme: #F4F1EA;
   --texto: #1E2A23;
@@ -153,3 +154,6 @@ section { padding: 72px 0; }
   .documento .caixa { padding: 20px; }
   .chamada { padding: 28px 20px; }
 }
+
+/* "ÃO" dourado da marca Cultivão */
+.ao { color: var(--marca-ouro); }
