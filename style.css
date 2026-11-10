@@ -166,3 +166,13 @@ section { padding: 72px 0; }
 .valores li:first-child { border-top: 0; padding-top: 0; }
 .valores strong { color: var(--verde-escuro); }
 @media (max-width: 860px) { .proposito .grade { grid-template-columns: 1fr; } }
+
+/* Faixa de cotações (igual ao app) */
+.cotacoes { background: #0D2B1F; border-bottom: 1px solid #2D6A4F; color: #CFF5E3; padding: 10px 0 8px; }
+.cot-lista { display: flex; gap: 28px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.cot-lista::-webkit-scrollbar { display: none; }
+.cot { display: flex; flex-direction: column; flex: 0 0 auto; min-width: 104px; }
+.cot-nome { font-size: .68rem; font-weight: 700; letter-spacing: .6px; }
+.cot-valor { color: var(--marca-ouro); font-size: .98rem; font-weight: 700; margin-top: 2px; }
+.cot-fonte { color: #A9D9C2; font-size: .66rem; font-weight: 600; margin-top: 1px; white-space: nowrap; }
+.cot-nota { color: #A9D9C2; font-size: .66rem; margin-top: 6px; opacity: .85; }

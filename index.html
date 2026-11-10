@@ -31,6 +31,18 @@
   </div>
 </header>
 
+<div class="cotacoes" aria-label="Cotações">
+  <div class="container">
+    <div class="cot-lista">
+      <div class="cot" id="cot-dolar-box"><span class="cot-nome">💵 DÓLAR</span><span class="cot-valor" id="cot-dolar">…</span><span class="cot-fonte" id="cot-dolar-f">PTAX · BCB</span></div>
+      <div class="cot"><span class="cot-nome">🌱 SOJA</span><span class="cot-valor" id="cot-soja">…</span><span class="cot-fonte" id="cot-soja-f">sc 60 kg · Conab MT</span></div>
+      <div class="cot"><span class="cot-nome">🌽 MILHO</span><span class="cot-valor" id="cot-milho">…</span><span class="cot-fonte" id="cot-milho-f">sc 60 kg · Conab MT</span></div>
+      <div class="cot"><span class="cot-nome">🐂 BOI GORDO</span><span class="cot-valor" id="cot-boi">…</span><span class="cot-fonte" id="cot-boi-f">@ · Conab MT</span></div>
+    </div>
+    <div class="cot-nota">Preços médios ao produtor em MT. Fontes: Conab e Banco Central. No app, informe também o seu preço.</div>
+  </div>
+</div>
+
 <main>
   <section class="hero">
     <div class="container">
@@ -185,5 +197,44 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  function reais(v) { return 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function txt(id, t) { var el = document.getElementById(id); if (el) el.textContent = t; }
+  function periodo(p) {
+    var d = p.fim.split('-');
+    return p.tipo === 'mensal' ? MESES[Number(d[1]) - 1] + '/' + d[0].slice(2) : d[2] + '/' + d[1];
+  }
+  // Soja, milho e boi: referência Conab (arquivo gerado da planilha da Conab)
+  fetch('precos.json?t=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw r.status; return r.json(); })
+    .then(function (d) {
+      var un = { soja: 'sc', milho: 'sc', boi: '@' };
+      ['soja', 'milho', 'boi'].forEach(function (k) {
+        var p = d.itens && d.itens[k];
+        if (!p) { txt('cot-' + k, '—'); return; }
+        txt('cot-' + k, reais(p.preco));
+        txt('cot-' + k + '-f', un[k] + ' · Conab MT · ' + periodo(p));
+      });
+    })
+    .catch(function () { ['soja', 'milho', 'boi'].forEach(function (k) { txt('cot-' + k, '—'); }); });
+  // Dólar: PTAX do Banco Central (últimos 10 dias, pega a mais recente)
+  function fmt(d) { return ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2) + '-' + d.getFullYear(); }
+  var fim = new Date(), ini = new Date(Date.now() - 10 * 864e5);
+  var url = 'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)' +
+    "?@dataInicial='" + fmt(ini) + "'&@dataFinalCotacao='" + fmt(fim) + "'&$orderby=dataHoraCotacao%20desc&$top=1&$format=json";
+  fetch(url)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var u = d.value && d.value[0];
+      if (!u) throw 0;
+      var dt = String(u.dataHoraCotacao).slice(0, 10).split('-');
+      txt('cot-dolar', reais(u.cotacaoVenda));
+      txt('cot-dolar-f', 'PTAX ' + dt[2] + '/' + dt[1] + ' · BCB');
+    })
+    .catch(function () { var b = document.getElementById('cot-dolar-box'); if (b) b.style.display = 'none'; });
+})();
+</script>
 </body>
 </html>
