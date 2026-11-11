@@ -1,16 +1,16 @@
 {
-  "atualizado_em": "2026-11-09",
+  "atualizado_em": "2026-11-10",
   "fonte": "Conab",
   "uf": "MT",
   "nivel": "produtor",
   "aviso": "Preços médios ao produtor em MT. Fonte: Conab. Reprodução permitida citando a fonte; proibida a comercialização.",
   "itens": {
     "boi": {
-      "preco": 329.33,
+      "preco": 343.83,
       "unidade": "@ 15 kg",
-      "tipo": "semanal",
-      "referencia": "semana 28/09 a 02/10/26",
-      "fim": "2026-10-02"
+      "tipo": "mensal",
+      "referencia": "média 10/2026",
+      "fim": "2026-10-31"
     },
     "milho": {
       "preco": 49.84,
